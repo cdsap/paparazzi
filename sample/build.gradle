@@ -1,3 +1,9 @@
+import org.gradle.api.artifacts.type.ArtifactTypeDefinition
+import org.gradle.api.attributes.Attribute
+import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.internal.artifacts.transform.UnzipTransform
+
 apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
@@ -60,11 +66,44 @@ tasks.named("check").configure {
 }
 
 
+def ARTIFACT_TYPE = ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE
+def nativeLibVersion = "16.2.1"  // however you provide it
+
+// Register transform once per project
+project.dependencies.registerTransform(UnzipTransform) { t ->
+  t.from.attribute(ARTIFACT_TYPE, ArtifactTypeDefinition.JAR_TYPE)
+  t.to.attribute(ARTIFACT_TYPE, ArtifactTypeDefinition.DIRECTORY_TYPE)
+}
+
 //afterEvaluate {
 tasks.withType(Test).configureEach {
   javaLauncher = javaToolchains.launcherFor {
     languageVersion = JavaLanguageVersion.of(21) // try 11 first
   }
+
+  
+def cfgName = "layoutlibResources_${test.name}"
+  def cfg = project.configurations.maybeCreate(cfgName)
+  cfg.canBeConsumed = false
+  cfg.canBeResolved = true
+  cfg.visible = false
+
+  cfg.dependencies.add(
+    project.dependencies.create("com.android.tools.layoutlib:layoutlib-resources:16.2.1")
+  )
+
+  // Ask for DIRECTORY artifacts (transform output)
+  def layoutlibDirs = cfg.incoming.artifactView { view ->
+    view.attributes.attribute(ARTIFACT_TYPE, ArtifactTypeDefinition.DIRECTORY_TYPE)
+  }.files
+
+  // Make Test task track these artifacts as inputs
+ inputs.files(layoutlibDirs)
+    .withPropertyName("layoutlibResources")
+    .withPathSensitivity(PathSensitivity.RELATIVE)
+
+
+
        inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
         .withPathSensitivity(PathSensitivity.RELATIVE)
     

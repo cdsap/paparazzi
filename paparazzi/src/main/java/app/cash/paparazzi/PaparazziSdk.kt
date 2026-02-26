@@ -142,6 +142,7 @@ public class PaparazziSdk @JvmOverloads constructor(
 
   public fun setup() {
     if (!isInitialized) {
+      println("alalalalalalalallllll ldlddss ")
       registerViewEditModeInterception()
 
       ByteBuddyAgent.install()
@@ -154,10 +155,13 @@ public class PaparazziSdk @JvmOverloads constructor(
       PaparazziCallback(logger, environment.packageName, environment.resourcePackageNames)
     layoutlibCallback.initResources()
 
-    if (!isInitialized) {
+
+
+
+//    if (!isInitialized) {
       renderer = Renderer(environment, layoutlibCallback, logger)
       sessionParamsBuilder = renderer.prepare()
-    }
+ //   }
     forcePlatformSdkVersion(environment.compileSdkVersion)
 
     sessionParamsBuilder = sessionParamsBuilder

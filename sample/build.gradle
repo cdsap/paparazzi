@@ -61,15 +61,7 @@ tasks.named("check").configure {
 tasks.withType(Test).configureEach {
        inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
         .withPathSensitivity(PathSensitivity.RELATIVE)
-           def layoutlibDir = providers.provider {
-        new File(
-            gradle.gradleUserHomeDir,
-            "caches/${gradle.gradleVersion}/transforms/97861d9afe7399f94d7071c775e6c859/transformed/layoutlib-resources-16.2.1"
-        )
-    }
-
-    inputs.dir(layoutlibDir)
-          .withPathSensitivity(PathSensitivity.RELATIVE)
+    
 //    outputs.dir("build/jacoco/")
     outputs.dir("build/reports/paparazzi/")
     // Include the new output that will merge the outputs of the different remote agents

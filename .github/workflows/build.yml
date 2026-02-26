@@ -41,6 +41,8 @@ jobs:
 
       - name: Run All Tests
         run: ./gradlew :sample:test
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.DV_ACCESS_KEY }}
 
       - name: Upload Test Failures
         if: failure()

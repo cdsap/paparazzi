@@ -59,7 +59,7 @@ tasks.named("check").configure {
 
 
 tasks.withType(Test).configureEach {
-//    inputs.file("build/intermediates/paparazzi/${it.name.replace("UnitTest", "").replace("test", "").toLowerCase()}/resources.txt")
+      inputs.file("build/intermediates/paparazzi/")
 //    outputs.dir("build/jacoco/")
     outputs.dir("build/reports/paparazzi/")
     // Include the new output that will merge the outputs of the different remote agents

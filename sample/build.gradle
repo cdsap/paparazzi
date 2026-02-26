@@ -107,12 +107,6 @@ def cfgName = "layoutlibResources_${test.name}"
        inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
         .withPathSensitivity(PathSensitivity.RELATIVE)
     
-//doFirst {
-        println "---- Task Inputs (files) ----"
-
-       
-        println "-----------------------------"
-  //  }
 
 //    outputs.dir("build/jacoco/")
     outputs.dir("build/reports/paparazzi/")

@@ -36,9 +36,6 @@ jobs:
           distribution: 'zulu'
           java-version: ${{ matrix.java-version }}
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-
       - name: Run All Tests
         run: ./gradlew :sample:test
         env:

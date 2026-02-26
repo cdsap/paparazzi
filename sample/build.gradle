@@ -42,6 +42,8 @@ dependencies {
   lintChecks projects.paparazziPreviewLints
 
   testImplementation libs.testParameterInjector
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
+
 }
 
 // https://github.com/diffplug/spotless/issues/1572
@@ -64,6 +66,7 @@ tasks.withType(Test).configureEach {
 //    outputs.dir("build/reports/paparazzi-td/")
     // Include the failures outputs to be merged
     outputs.dir("out/failures/")
+    useJUnitPlatform()
     develocity.testDistribution {
         enabled = true
         maxLocalExecutors = 0

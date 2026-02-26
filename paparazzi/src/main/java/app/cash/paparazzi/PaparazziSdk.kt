@@ -158,13 +158,13 @@ public class PaparazziSdk @JvmOverloads constructor(
 
 
 
-    if (!isInitialized) {
+//    if (!isInitialized) {
          println("not intiialized  ")
       renderer = Renderer(environment, layoutlibCallback, logger)
       sessionParamsBuilder = renderer.prepare()
-   } else {
+  // } else {
     println("initialiuzed")
-   }
+  // }
     forcePlatformSdkVersion(environment.compileSdkVersion)
 
     sessionParamsBuilder = sessionParamsBuilder

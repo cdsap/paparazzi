@@ -43,6 +43,8 @@ dependencies {
 
   testImplementation libs.testParameterInjector
   testImplementation("com.android.tools.layoutlib:layoutlib:16.2.1")
+  testImplementation("com.android.tools.layoutlib:layoutlib-resources:16.2.1")
+  
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
 
 }
@@ -58,8 +60,11 @@ tasks.named("check").configure {
 }
 
 
-afterEvaluate {
+//afterEvaluate {
 tasks.withType(Test).configureEach {
+  javaLauncher = javaToolchains.launcherFor {
+    languageVersion = JavaLanguageVersion.of(21) // try 11 first
+  }
        inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
         .withPathSensitivity(PathSensitivity.RELATIVE)
     
@@ -82,5 +87,5 @@ tasks.withType(Test).configureEach {
         maxLocalExecutors = 0
         maxRemoteExecutors = 3
     }
-}
+//}
 }

@@ -81,6 +81,7 @@ internal class Renderer(
 
     val layoutlibRuntimeRoot = System.getProperty("paparazzi.layoutlib.runtime.root")
       ?: throw RuntimeException("Missing system property for 'paparazzi.layoutlib.runtime.root'")
+    println(layoutlibRuntimeRoot)
     val buildProp = File(layoutlibRuntimeRoot, "build.prop")
     val platformDataDir = File(layoutlibRuntimeRoot, "data")
     val fontLocation = File(platformDataDir, "fonts")

@@ -64,7 +64,8 @@ tasks.withType(Test).configureEach {
     outputs.dir("build/reports/paparazzi-td/")
     // Include the failures outputs to be merged
     outputs.dir("out/failures/")
-    distribution {
+    useJUnitPlatform()
+    develocity.testDistribution {
         enabled = true
         maxLocalExecutors = 0
         maxRemoteExecutors = 3

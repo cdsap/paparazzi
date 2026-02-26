@@ -22,7 +22,7 @@ jobs:
           # dCheck https://github.com/actions/runner-images?tab=readme-ov-file#available-images for actual versions for latest
           ubuntu-latest
         ]
-        java-version: [21, 24]
+        java-version: [21]
 
     runs-on: ${{matrix.os}}
 

@@ -42,6 +42,7 @@ dependencies {
   lintChecks projects.paparazziPreviewLints
 
   testImplementation libs.testParameterInjector
+  testImplementation("com.android.tools.layoutlib:layoutlib:16.2.1")
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
 
 }
@@ -62,6 +63,16 @@ tasks.withType(Test).configureEach {
        inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
         .withPathSensitivity(PathSensitivity.RELATIVE)
     
+//doFirst {
+        println "---- Task Inputs (files) ----"
+
+        inputs.files.files.each { file ->
+            println file.absolutePath
+        }
+
+        println "-----------------------------"
+  //  }
+
 //    outputs.dir("build/jacoco/")
     outputs.dir("build/reports/paparazzi/")
     // Include the new output that will merge the outputs of the different remote agents

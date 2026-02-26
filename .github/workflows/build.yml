@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [
-          # Check https://github.com/actions/runner-images?tab=readme-ov-file#available-images for actual versions for latest
+          # dCheck https://github.com/actions/runner-images?tab=readme-ov-file#available-images for actual versions for latest
           ubuntu-latest
         ]
         java-version: [21, 24]

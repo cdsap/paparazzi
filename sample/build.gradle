@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 apply plugin: 'app.cash.paparazzi'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 
 android {
   namespace = 'app.cash.paparazzi.sample'
@@ -58,7 +58,7 @@ tasks.named("check").configure {
 }
 
 
-
+afterEvaluate {
 tasks.withType(Test).configureEach {
        inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
         .withPathSensitivity(PathSensitivity.RELATIVE)
@@ -66,10 +66,7 @@ tasks.withType(Test).configureEach {
 //doFirst {
         println "---- Task Inputs (files) ----"
 
-        inputs.files.files.each { file ->
-            println file.absolutePath
-        }
-
+       
         println "-----------------------------"
   //  }
 
@@ -85,4 +82,5 @@ tasks.withType(Test).configureEach {
         maxLocalExecutors = 0
         maxRemoteExecutors = 3
     }
+}
 }

@@ -48,8 +48,8 @@ dependencies {
   lintChecks projects.paparazziPreviewLints
 
   testImplementation libs.testParameterInjector
-  testImplementation("com.android.tools.layoutlib:layoutlib:16.2.1")
-  testImplementation("com.android.tools.layoutlib:layoutlib-resources:16.2.1")
+  //testImplementation("com.android.tools.layoutlib:layoutlib:16.2.1")
+//  testImplementation("com.android.tools.layoutlib:layoutlib-resources:16.2.1")
   
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
 

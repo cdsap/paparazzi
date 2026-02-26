@@ -57,11 +57,11 @@ tasks.named("check").configure {
 
 
 tasks.withType(Test).configureEach {
-    inputs.file("build/intermediates/paparazzi/${it.name.replace("UnitTest", "").replace("test", "").toLowerCase()}/resources.txt")
-    outputs.dir("build/jacoco/")
+//    inputs.file("build/intermediates/paparazzi/${it.name.replace("UnitTest", "").replace("test", "").toLowerCase()}/resources.txt")
+//    outputs.dir("build/jacoco/")
     outputs.dir("build/reports/paparazzi/")
     // Include the new output that will merge the outputs of the different remote agents
-    outputs.dir("build/reports/paparazzi-td/")
+//    outputs.dir("build/reports/paparazzi-td/")
     // Include the failures outputs to be merged
     outputs.dir("out/failures/")
     useJUnitPlatform()

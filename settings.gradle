@@ -4,7 +4,7 @@ plugins {
 
 
 develocity {
-    server = "https://34-168-163-143.nip.io/"
+    server = "https://136-109-35-242.nip.io/"
     allowUntrustedServer = true
     buildScan {
         publishing.onlyIf { true }

@@ -59,7 +59,8 @@ tasks.named("check").configure {
 
 
 tasks.withType(Test).configureEach {
-      inputs.file("build/intermediates/paparazzi/")
+       inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
+        .withPathSensitivity(PathSensitivity.RELATIVE)
 //    outputs.dir("build/jacoco/")
     outputs.dir("build/reports/paparazzi/")
     // Include the new output that will merge the outputs of the different remote agents

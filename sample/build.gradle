@@ -48,9 +48,7 @@ dependencies {
   lintChecks projects.paparazziPreviewLints
 
   testImplementation libs.testParameterInjector
-  //testImplementation("com.android.tools.layoutlib:layoutlib:16.2.1")
-//  testImplementation("com.android.tools.layoutlib:layoutlib-resources:16.2.1")
-  
+
   testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
 
 }
@@ -66,59 +64,24 @@ tasks.named("check").configure {
 }
 
 
-def ARTIFACT_TYPE = ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE
-def nativeLibVersion = "16.2.1"  // however you provide it
-
-// Register transform once per project
-project.dependencies.registerTransform(UnzipTransform) { t ->
-  t.from.attribute(ARTIFACT_TYPE, ArtifactTypeDefinition.JAR_TYPE)
-  t.to.attribute(ARTIFACT_TYPE, ArtifactTypeDefinition.DIRECTORY_TYPE)
-}
-
 //afterEvaluate {
 tasks.withType(Test).configureEach {
-  javaLauncher = javaToolchains.launcherFor {
-    languageVersion = JavaLanguageVersion.of(21) // try 11 first
-  }
 
-  
-def cfgName = "layoutlibResources_${test.name}"
-  def cfg = project.configurations.maybeCreate(cfgName)
-  cfg.canBeConsumed = false
-  cfg.canBeResolved = true
-  cfg.visible = false
-
-  cfg.dependencies.add(
-    project.dependencies.create("com.android.tools.layoutlib:layoutlib-resources:16.2.1")
-  )
-
-  // Ask for DIRECTORY artifacts (transform output)
-  def layoutlibDirs = cfg.incoming.artifactView { view ->
-    view.attributes.attribute(ARTIFACT_TYPE, ArtifactTypeDefinition.DIRECTORY_TYPE)
-  }.files
-
-  // Make Test task track these artifacts as inputs
- inputs.files(layoutlibDirs)
-    .withPropertyName("layoutlibResources")
+  inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
     .withPathSensitivity(PathSensitivity.RELATIVE)
 
 
-
-       inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-    
-
 //    outputs.dir("build/jacoco/")
-    outputs.dir("build/reports/paparazzi/")
-    // Include the new output that will merge the outputs of the different remote agents
+  outputs.dir("build/reports/paparazzi/")
+  // Include the new output that will merge the outputs of the different remote agents
 //    outputs.dir("build/reports/paparazzi-td/")
-    // Include the failures outputs to be merged
-    outputs.dir("out/failures/")
-    useJUnitPlatform()
-    develocity.testDistribution {
-        enabled = true
-        maxLocalExecutors = 0
-        maxRemoteExecutors = 3
-    }
+  // Include the failures outputs to be merged
+  outputs.dir("out/failures/")
+  useJUnitPlatform()
+  develocity.testDistribution {
+    enabled = true
+    maxLocalExecutors = 0
+    maxRemoteExecutors = 3
+  }
 //}
 }

@@ -57,31 +57,28 @@ tasks.named("check").configure {
   dependsOn("verifyPaparazzi")
 }
 
-afterEvaluate {
-  def layoutlibResources = configurations.findByName("layoutlibResources")
-  if (layoutlibResources != null) {
-    tasks.withType(Test).configureEach { testTask ->
-      inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
-        .withPathSensitivity(PathSensitivity.RELATIVE)
-
-
-//    outputs.dir("build/jacoco/")
-      outputs.dir("build/reports/paparazzi/")
-      useJUnitPlatform()
-      develocity.testDistribution {
-        enabled = true
-        maxLocalExecutors = 0
-        maxRemoteExecutors = 3
-      }
-      def layoutlibResourcesFiles = layoutlibResources.incoming.artifactView { view ->
-        view.attributes.attribute(
-          ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
-          ArtifactTypeDefinition.DIRECTORY_TYPE
-        )
-      }.files
-      testTask.inputs.files(layoutlibResourcesFiles)
-        .withPropertyName("paparazzi.layoutlib.resources")
-        .withPathSensitivity(PathSensitivity.NONE)
-    }
+//afterEvaluate {
+//  def layoutlibResources = configurations.findByName("layoutlibResources")
+//  if (layoutlibResources != null) {
+tasks.withType(Test).configureEach { testTask ->
+  inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
+    .withPathSensitivity(PathSensitivity.RELATIVE)
+  outputs.dir("build/reports/paparazzi/")
+  useJUnitPlatform()
+  develocity.testDistribution {
+    enabled = true
+    maxLocalExecutors = 0
+    maxRemoteExecutors = 3
   }
+  def layoutlibResourcesFiles = layoutlibResources.incoming.artifactView { view ->
+    view.attributes.attribute(
+      ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+      ArtifactTypeDefinition.DIRECTORY_TYPE
+    )
+  }.files
+  testTask.inputs.files(layoutlibResourcesFiles)
+    .withPropertyName("paparazzi.layoutlib.resources")
+    .withPathSensitivity(PathSensitivity.NONE)
 }
+//  }
+//}

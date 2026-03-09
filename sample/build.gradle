@@ -58,7 +58,7 @@ tasks.named("check").configure {
 }
 
 //afterEvaluate {
-//  def layoutlibResources = configurations.findByName("layoutlibResources")
+
 //  if (layoutlibResources != null) {
 tasks.withType(Test).configureEach { testTask ->
   inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
@@ -70,6 +70,7 @@ tasks.withType(Test).configureEach { testTask ->
     maxLocalExecutors = 0
     maxRemoteExecutors = 3
   }
+  def layoutlibResources = configurations.findByName("layoutlibResources")
   def layoutlibResourcesFiles = layoutlibResources.incoming.artifactView { view ->
     view.attributes.attribute(
       ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,

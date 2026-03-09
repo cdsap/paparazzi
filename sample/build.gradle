@@ -42,6 +42,9 @@ dependencies {
   lintChecks projects.paparazziPreviewLints
 
   testImplementation libs.testParameterInjector
+
+  testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
+
 }
 
 // https://github.com/diffplug/spotless/issues/1572
@@ -52,4 +55,27 @@ tasks.withType(com.diffplug.gradle.spotless.SpotlessTask).configureEach {
 // Verify screenshots as part of the standard check process
 tasks.named("check").configure {
   dependsOn("verifyPaparazzi")
+}
+
+afterEvaluate {
+  def layoutlibResources = configurations.findByName("layoutlibResources")
+  if (layoutlibResources != null) {
+    tasks.withType(Test).configureEach { testTask ->
+      useJUnitPlatform()
+      develocity.testDistribution {
+        enabled = true
+        maxLocalExecutors = 0
+        maxRemoteExecutors = 3
+      }
+      def layoutlibResourcesFiles = layoutlibResources.incoming.artifactView { view ->
+        view.attributes.attribute(
+          ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+          ArtifactTypeDefinition.DIRECTORY_TYPE
+        )
+      }.files
+      testTask.inputs.files(layoutlibResourcesFiles)
+        .withPropertyName("paparazzi.layoutlib.resources")
+        .withPathSensitivity(PathSensitivity.NONE)
+    }
+  }
 }

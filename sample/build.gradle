@@ -61,6 +61,12 @@ afterEvaluate {
   def layoutlibResources = configurations.findByName("layoutlibResources")
   if (layoutlibResources != null) {
     tasks.withType(Test).configureEach { testTask ->
+      inputs.dir(layout.buildDirectory.dir("intermediates/paparazzi"))
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+
+
+//    outputs.dir("build/jacoco/")
+      outputs.dir("build/reports/paparazzi/")
       useJUnitPlatform()
       develocity.testDistribution {
         enabled = true
